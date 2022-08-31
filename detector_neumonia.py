@@ -3,6 +3,7 @@
 
 from tkinter import *
 from tkinter import ttk, font, filedialog, Entry
+
 from tkinter.messagebox import askokcancel, showinfo, WARNING
 import getpass
 from PIL import ImageTk, Image
@@ -12,18 +13,9 @@ import tkcap
 import img2pdf
 import numpy as np
 import time
-from tensorflow.keras import backend as K
-import tensorflow as tf
-import pydicom as dicom
-
 tf.compat.v1.disable_eager_execution()
 tf.compat.v1.experimental.output_all_intermediates(True)
 import cv2
-
-
-def model_fun():
-    model_cnn = tf.keras.models.load_model("WilhemNet_86.h5")
-    return model_cnn
 
 
 def grad_cam(array):
@@ -54,13 +46,13 @@ def grad_cam(array):
     superimposed_img = superimposed_img.astype(np.uint8)
     return superimposed_img[:, :, ::-1]
 
-
+# Este metodo carga el modelo...!
 def predict(array):
     #   1. call function to pre-process image: it returns image in batch format
     batch_array_img = preprocess(array)
     #   2. call function to load model and predict: it returns predicted class and probability
     model = model_fun()
-    # model_cnn = tf.keras.models.load_model('conv_MLP_84.h5')
+    # model_cnn = tf.keras.models.load_model('conv_MLP_84.h5') --esta funcion deberia estar habilitada
     prediction = np.argmax(model.predict(batch_array_img))
     proba = np.max(model.predict(batch_array_img)) * 100
     label = ""
@@ -106,7 +98,7 @@ def preprocess(array):
     array = np.expand_dims(array, axis=0)
     return array
 
-
+#Inicio de la aplicacion
 class App:
     def __init__(self):
         self.root = Tk()
