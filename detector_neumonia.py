@@ -13,7 +13,8 @@ import numpy as np
 import time
 from tensorflow.keras import backend as K
 import tensorflow as tf
-import pydicom as dicom
+#import pydicom as dicom
+from inference import infe 
 
 tf.compat.v1.disable_eager_execution()
 tf.compat.v1.experimental.output_all_intermediates(True)
