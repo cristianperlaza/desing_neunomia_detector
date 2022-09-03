@@ -11,19 +11,18 @@ import tkcap
 import img2pdf
 import numpy as np
 import time
-import keras
-from inference import infe
 from tensorflow.keras import backend as K
-
-
-import cv2
 import tensorflow as tf
+import pydicom as dicom
 
 tf.compat.v1.disable_eager_execution()
 tf.compat.v1.experimental.output_all_intermediates(True)
 
 
-#Inicio de la aplicacion
+def model_fun():
+    model_cnn = tf.keras.models.load_model("WilhemNet_86.h5")
+    return model_cnn
+
 
 def grad_cam(array):
     img = preprocess(array)
@@ -106,7 +105,6 @@ def preprocess(array):
     return array
 
 
-#Inicio de la aplicacion
 class App:
     def __init__(self):
         self.root = Tk()
