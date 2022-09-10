@@ -1,3 +1,4 @@
+
 from random import random
 from tkinter import *
 from tkinter import ttk, font, filedialog, Entry
@@ -13,6 +14,7 @@ import numpy as np
 import time
 import keras
 from inference import infe
+from backend import Backend
 from tensorflow.keras import backend as K
 
 
@@ -23,9 +25,7 @@ tf.compat.v1.disable_eager_execution()
 tf.compat.v1.experimental.output_all_intermediates(True)
 
 
-
 #Inicio de la aplicacion
-
 
 class App:
     def __init__(self):
@@ -145,7 +145,7 @@ class App:
             w.writerow(
                 [self.text1.get(), self.label, "{:.2f}".format(self.proba) + "%"]
             )
-            showinfo(title="Guardar", message="Los datos se guardaron con éxito.")
+            Backend.save_results()
 
     def create_pdf(self):
         cap = tkcap.CAP(self.root)
@@ -156,20 +156,17 @@ class App:
         pdf_path = r"Reporte" + str(self.reportID) + ".pdf"
         img.save(pdf_path)
         self.reportID += 1
-        showinfo(title="PDF", message="El PDF fue generado con éxito.")
+        Backend.create()
 
     def delete(self):
-        answer = askokcancel(
-            title="Confirmación", message="Se borrarán todos los datos.", icon=WARNING
-        )
+        answer = Backend.con_delet()
         if answer:
             self.text1.delete(0, "end")
             self.text2.delete(1.0, "end")
             self.text3.delete(1.0, "end")
             self.text_img1.delete(self.img1, "end")
             self.text_img2.delete(self.img2, "end")
-            showinfo(title="Borrar", message="Los datos se borraron con éxito")
-
+            Backend.delet()
 
 def main():
     inference = infe()
